@@ -1,4 +1,4 @@
-# Dagger Hilt Tutorial - Step by Step Guide
+# Dagger Hilt Tutorial
 [![MindOrks](https://img.shields.io/badge/mindorks-opensource-blue.svg)](https://mindorks.com/open-source-projects)
 [![MindOrks Community](https://img.shields.io/badge/join-community-blue.svg)](https://mindorks.com/join-community)
 
