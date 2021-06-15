@@ -1,28 +1,52 @@
 package com.abhishek.daggerhilt.view
 
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.abhishek.daggerhilt.databinding.ActivityMainBinding
-import com.abhishek.daggerhilt.models.Car
-import com.abhishek.daggerhilt.models.Engine
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    @Inject
-    lateinit var car: Car
-    @Inject
-    lateinit var engine: Engine
+
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.hiltTextView.apply {
-            text = engine.startEngine().plus("\n"+car.runCar())
+        mainViewModel.fetchUsers()
+
+        lifecycleScope.launchWhenStarted {
+            mainViewModel.userFetchEvent.collect { event ->
+                when (event) {
+
+                    is MainViewModel.UserFetchEvent.Success -> {
+                        binding.progressBar.isVisible = false
+                        binding.hiltTextView.setTextColor(Color.BLACK)
+                        binding.hiltTextView.text =
+                            event.user?.first_name?.plus(" ${event.user.last_name}")
+                    }
+
+                    is MainViewModel.UserFetchEvent.Failure -> {
+                        binding.progressBar.isVisible = false
+                        binding.hiltTextView.setTextColor(Color.RED)
+                        binding.hiltTextView.text = event.errorText
+                    }
+
+                    is MainViewModel.UserFetchEvent.Loading -> {
+                        binding.progressBar.isVisible = true
+                    }
+
+                    else -> Unit
+                }
+            }
         }
     }
 }

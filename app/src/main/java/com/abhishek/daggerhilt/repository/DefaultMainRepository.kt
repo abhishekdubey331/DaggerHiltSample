@@ -9,7 +9,7 @@ class DefaultMainRepository @Inject constructor(
     private val currencyApi: ApiInterface
 ) : MainRepository {
 
-    override suspend fun getRates(base: String): Resource<UserResponse> {
+    override suspend fun getUsers(): Resource<UserResponse> {
         return try {
             val response = currencyApi.getUsers()
             val result = response.body()

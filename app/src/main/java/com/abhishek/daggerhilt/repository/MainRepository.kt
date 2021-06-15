@@ -4,5 +4,5 @@ import com.abhishek.daggerhilt.data.UserResponse
 import com.abhishek.daggerhilt.utils.Resource
 
 interface MainRepository {
-    suspend fun getRates(base: String): Resource<UserResponse>
+    suspend fun getUsers(): Resource<UserResponse>
 }

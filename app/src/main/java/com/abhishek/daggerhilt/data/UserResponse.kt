@@ -2,7 +2,7 @@ package com.abhishek.daggerhilt.data
 
 
 data class UserResponse(
-    val `data`: List<Data>,
+    val `data`: List<User>,
     val page: Int,
     val per_page: Int,
     val support: Support,
@@ -10,7 +10,7 @@ data class UserResponse(
     val total_pages: Int
 )
 
-data class Data(
+data class User(
     val avatar: String,
     val email: String,
     val first_name: String,
